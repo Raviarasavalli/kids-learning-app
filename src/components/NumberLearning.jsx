@@ -49,7 +49,7 @@ export default function NumberLearning({ start, end, onNext }) {
       </div>
       
       <div className="controls-row">
-        <SpeechButton text={spelledWord} label="SAY IT" />
+        <SpeechButton text={spelledWord.toLowerCase()} label="SAY IT" />
         <NextButton onClick={handleNext} />
       </div>
     </div>

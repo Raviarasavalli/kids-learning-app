@@ -60,7 +60,7 @@ export default function WordLearning({ onNext }) {
       </div>
       
       <div className="controls-row">
-        <SpeechButton text={item.word} label="SAY IT" />
+        <SpeechButton text={item.word.toLowerCase()} label="SAY IT" />
         <NextButton onClick={handleNext} />
       </div>
     </div>
