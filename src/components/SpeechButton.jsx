@@ -1,19 +1,24 @@
 import React from 'react';
 
-export default function SpeechButton({ text, label = "SAY IT" }) {
+export default function SpeechButton({ text, lang = "en-US", label = "SAY IT" }) {
   const speak = () => {
     if ('speechSynthesis' in window) {
       // Cancel any ongoing speech to avoid overlaps
       window.speechSynthesis.cancel();
       
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'en-US';
+      utterance.lang = lang;
       
-      // Try to find an English voice
+      // Match voice language prefix (e.g., 'te' for Telugu or 'en' for English)
       const voices = window.speechSynthesis.getVoices();
-      const enVoice = voices.find(v => v.lang.startsWith('en') || v.lang.includes('EN'));
-      if (enVoice) {
-        utterance.voice = enVoice;
+      const targetLangPrefix = lang.split('-')[0].toLowerCase();
+      const matchedVoice = voices.find(v => 
+        v.lang.toLowerCase().startsWith(targetLangPrefix) || 
+        v.lang.toLowerCase().includes(targetLangPrefix)
+      );
+      
+      if (matchedVoice) {
+        utterance.voice = matchedVoice;
       }
       
       window.speechSynthesis.speak(utterance);

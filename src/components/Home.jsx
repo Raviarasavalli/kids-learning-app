@@ -15,7 +15,7 @@ export default function Home({ onSelectMode }) {
       />
       <div className="home-text-side">
         <h1 className="home-title">LET'S LEARN! 🌈</h1>
-        <p className="home-subtitle">ABC • NUMBERS • WORDS</p>
+        <p className="home-subtitle">ABC • NUMBERS • WORDS • TELUGU</p>
         
         <div className="mode-grid">
           <button className="mode-card card-numbers" onClick={() => onSelectMode('numberSetup')}>
@@ -39,6 +39,14 @@ export default function Home({ onSelectMode }) {
             <div className="mode-info">
               <h2>WORDS</h2>
               <p>Learn Easy Words</p>
+            </div>
+          </button>
+
+          <button className="mode-card card-telugu" onClick={() => onSelectMode('teluguMode')}>
+            <span className="mode-icon">🌺</span>
+            <div className="mode-info">
+              <h2>తెలుగు (TELUGU)</h2>
+              <p>అచ్చులు & హల్లులు</p>
             </div>
           </button>
         </div>

@@ -6,11 +6,14 @@ import NumberLearning from './components/NumberLearning';
 import LetterMode from './components/LetterMode';
 import LetterLearning from './components/LetterLearning';
 import WordLearning from './components/WordLearning';
+import TeluguMode from './components/TeluguMode';
+import TeluguLearning from './components/TeluguLearning';
 
 export default function App() {
   const [screen, setScreen] = useState('home');
   const [numRange, setNumRange] = useState({ start: 1, end: 20 });
   const [letterMode, setLetterMode] = useState('capital');
+  const [teluguMode, setTeluguMode] = useState('vowels');
   const [score, setScore] = useState(0);
   const [showCelebration, setShowCelebration] = useState(false);
 
@@ -24,7 +27,7 @@ export default function App() {
       setShowCelebration(true);
       setTimeout(() => {
         setShowCelebration(false);
-      }, 1800); // Celebration overlays auto-closes in 1.8 seconds
+      }, 1800); // Celebration overlay auto-closes in 1.8 seconds
     }
   };
 
@@ -35,6 +38,8 @@ export default function App() {
     else if (screen === 'letterMode') setScreen('home');
     else if (screen === 'letters') setScreen('letterMode');
     else if (screen === 'words') setScreen('home');
+    else if (screen === 'teluguMode') setScreen('home');
+    else if (screen === 'telugu') setScreen('teluguMode');
   };
 
   // Retrieve current screen title
@@ -42,6 +47,7 @@ export default function App() {
     if (screen === 'numberSetup' || screen === 'numbers') return 'NUMBERS';
     if (screen === 'letterMode' || screen === 'letters') return 'ABC LETTERS';
     if (screen === 'words') return 'EASY WORDS';
+    if (screen === 'teluguMode' || screen === 'telugu') return 'తెలుగు (TELUGU)';
     return '';
   };
 
@@ -54,6 +60,11 @@ export default function App() {
   const handleStartLetters = (mode) => {
     setLetterMode(mode);
     setScreen('letters');
+  };
+
+  const handleStartTelugu = (mode) => {
+    setTeluguMode(mode);
+    setScreen('telugu');
   };
 
   return (
@@ -78,30 +89,36 @@ export default function App() {
           <Home onSelectMode={setScreen} />
         )}
         {screen === 'numberSetup' && (
-          <NumberSetup onStart={handleStartNumbers} onBack={handleBack} />
+          <NumberSetup onStart={handleStartNumbers} />
         )}
         {screen === 'numbers' && (
           <NumberLearning 
             start={numRange.start} 
             end={numRange.end} 
             onNext={handleItemCompleted} 
-            onBack={handleBack} 
           />
         )}
         {screen === 'letterMode' && (
-          <LetterMode onStart={handleStartLetters} onBack={handleBack} />
+          <LetterMode onStart={handleStartLetters} />
         )}
         {screen === 'letters' && (
           <LetterLearning 
             mode={letterMode} 
             onNext={handleItemCompleted} 
-            onBack={handleBack} 
           />
         )}
         {screen === 'words' && (
           <WordLearning 
             onNext={handleItemCompleted} 
-            onBack={handleBack} 
+          />
+        )}
+        {screen === 'teluguMode' && (
+          <TeluguMode onStart={handleStartTelugu} />
+        )}
+        {screen === 'telugu' && (
+          <TeluguLearning 
+            mode={teluguMode} 
+            onNext={handleItemCompleted} 
           />
         )}
       </main>
