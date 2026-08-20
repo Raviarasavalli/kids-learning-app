@@ -400,7 +400,7 @@ body::after {
 }
 
 .dino-unit {
-  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
   transition: transform 0.2s, opacity 0.2s;
   display: inline-block;
 }
@@ -1286,7 +1286,7 @@ body::after {
   }
 
   .dino-unit {
-    font-size: clamp(1.3rem, 3.5vw, 2rem);
+    font-size: clamp(1.6rem, 4.2vw, 2.4rem);
   }
 
   .dino-group-box {
