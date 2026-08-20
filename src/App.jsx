@@ -8,12 +8,18 @@ import LetterLearning from './components/LetterLearning';
 import WordLearning from './components/WordLearning';
 import TeluguMode from './components/TeluguMode';
 import TeluguLearning from './components/TeluguLearning';
+import MathHome from './components/MathHome';
+import MathLevelSelect from './components/MathLevelSelect';
+import DinoMathGame from './components/DinoMathGame';
+import { MATH_ACTIVITIES } from './data/mathData';
 
 export default function App() {
   const [screen, setScreen] = useState('home');
   const [numRange, setNumRange] = useState({ start: 1, end: 20 });
   const [letterMode, setLetterMode] = useState('capital');
   const [teluguMode, setTeluguMode] = useState('vowels');
+  const [mathActivity, setMathActivity] = useState('addition');
+  const [mathLevel, setMathLevel] = useState('easy');
   const [score, setScore] = useState(0);
   const [showCelebration, setShowCelebration] = useState(false);
 
@@ -31,7 +37,7 @@ export default function App() {
     }
   };
 
-  // Back button routing logic
+  // Internal Back button routing logic (NEVER leaves website)
   const handleBack = () => {
     if (screen === 'numberSetup') setScreen('home');
     else if (screen === 'numbers') setScreen('numberSetup');
@@ -40,6 +46,9 @@ export default function App() {
     else if (screen === 'words') setScreen('home');
     else if (screen === 'teluguMode') setScreen('home');
     else if (screen === 'telugu') setScreen('teluguMode');
+    else if (screen === 'mathHome') setScreen('home');
+    else if (screen === 'mathLevel') setScreen('mathHome');
+    else if (screen === 'mathGame') setScreen('mathLevel');
   };
 
   // Retrieve current screen title
@@ -48,6 +57,11 @@ export default function App() {
     if (screen === 'letterMode' || screen === 'letters') return 'ABC LETTERS';
     if (screen === 'words') return 'EASY WORDS';
     if (screen === 'teluguMode' || screen === 'telugu') return 'తెలుగు (TELUGU)';
+    if (screen === 'mathHome') return 'DINO MATH 🦖';
+    if (screen === 'mathLevel' || screen === 'mathGame') {
+      const act = MATH_ACTIVITIES[mathActivity];
+      return act ? `${act.title} ${act.icon}` : 'DINO MATH';
+    }
     return '';
   };
 
@@ -67,9 +81,20 @@ export default function App() {
     setScreen('telugu');
   };
 
+  const handleSelectMathActivity = (activityId) => {
+    setMathActivity(activityId);
+    setScreen('mathLevel');
+  };
+
+  const handleStartMathGame = (activityId, level) => {
+    setMathActivity(activityId);
+    setMathLevel(level);
+    setScreen('mathGame');
+  };
+
   return (
     <div className="app-container">
-      {/* Navigation Header (Hidden on home screen to maximize banner space) */}
+      {/* Navigation Header (Hidden on home screen to maximize space) */}
       {screen !== 'home' && (
         <header className="app-header">
           <button className="back-btn" onClick={handleBack}>
@@ -118,6 +143,22 @@ export default function App() {
         {screen === 'telugu' && (
           <TeluguLearning 
             mode={teluguMode} 
+            onNext={handleItemCompleted} 
+          />
+        )}
+        {screen === 'mathHome' && (
+          <MathHome onSelectActivity={handleSelectMathActivity} />
+        )}
+        {screen === 'mathLevel' && (
+          <MathLevelSelect 
+            activityId={mathActivity} 
+            onStartGame={handleStartMathGame} 
+          />
+        )}
+        {screen === 'mathGame' && (
+          <DinoMathGame 
+            activityId={mathActivity} 
+            level={mathLevel} 
             onNext={handleItemCompleted} 
           />
         )}
